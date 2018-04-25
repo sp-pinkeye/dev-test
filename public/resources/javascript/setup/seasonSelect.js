@@ -42,5 +42,12 @@ $( '#selectSeason' ).change(function() {
 	
 	} );
 
+	// Clear popovers
+	$('.media-object').popover('hide'); 
 	$('#episodes').html(output) ;
+	
+	// Recall the javascript to sort popovers
+	$('.media-object').click(function(){
+    $('.media-object').not(this).popover('hide'); //all but this
+	});
 });
