@@ -14,25 +14,30 @@
       </div>
     </div>
 
-	<div class="season-filter">
-    	<select id="selectSeason">
- 		 <option value="0">All Seasons</option>
- 		{% for season in seasons %}
- 		 <option value="{{season}}">Season {{season}}</option>
-  		{% endfor %}
-		</select>
-	</div>
+	{% if not error %}
+	<div class="row">
+			<div class="season-filter text-center">
+				<label for="selectSeason">Filter by Season: </label>
+    			<select id="selectSeason">
+ 		 			<option value="0">All Seasons</option>
+ 					{% for season in seasons %}
+ 		 			<option value="{{season}}">Season {{season}}</option>
+  					{% endfor %}
+				</select>
+			</div>
+		</div>
+	{% endif %}
+
     <div class="container" id="episodes" data-episodes='{{episodes|json_encode()}}'>
     	{% if error %}
     		<div class="alert alert-danger" role="alert">
   				Sorry, there was an error. Please try again by reloading the page
 			</div>'
     	{% else %}
+
         {% for episode in episodes %}
             {% if loop.index%2 == 1 %}<div class="row">{%endif %}
-
-                {{ include('episode.html') }}
-        
+                {{ include('episode.html') }}       
             {% if loop.index%2 == 0 %}</div>{%endif %}
         {% endfor %}
       {%endif %}

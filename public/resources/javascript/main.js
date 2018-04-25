@@ -1,3 +1,3 @@
 require('bootstrap')
 require('./setup/popover')()
-require('./setup/seasonSelect')()
+require('./setup/seasonSelect.js')
