@@ -1,31 +1,48 @@
 <?php
 require_once '../vendor/autoload.php';
 
+session_start() ;
+
 //Load Twig templating environment
 $loader = new Twig_Loader_Filesystem('../templates/');
 $twig = new Twig_Environment($loader, ['debug' => true]);
 
 //Get the episodes from the API
-// Can test with $client->head that data exists
 $client = new GuzzleHttp\Client();
 $error = 0 ;
+$data = array();
+$seasons = array() ;
+
 try{
-	
+
+	$res = 	$client->head( 'http://3ev.org/dev-test-api/' ) ; 
+
+	// Check cache if not do a GET
+	if( isset( $_SESSION['data'] ) ){
+		$data = $_SESSION['data'] ;	
+	}else{
+		$res = $client->request('GET', 'http://3ev.org/dev-test-api/');
+		
+		$data = json_decode($res->getBody(), true);
+
+		$data = sort_multi_array( $data, "season","episode");
+
+		$_SESSION['data'] = $data ;	
+	}
+		
 	$res = $client->request('GET', 'http://3ev.org/dev-test-api/');
-	
+		
 	$data = json_decode($res->getBody(), true);
-
-	//Sort the episodes
-	$data = sort_multi_array( $data, "season","episode");
-
+	
 	$seasons = array_unique( array_column( $data, "season" ) );
 
-}
-catch( GuzzleHttp\Exception\ServerException $e ){
+}catch( Exception $e){
 	$error = 1 ;
+	// Clear cache - may not be necessary
+	unset($_SESSION['data']) ;
 }
 
-	//Render the template
+//Render the template
 
 echo $twig->render('page.html', ["error"=>$error, "episodes" => $data, "seasons" => $seasons]);
 
