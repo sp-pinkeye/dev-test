@@ -19,3 +19,4 @@ Tell us what we would need to do to get your changes into production. (We are aw
 Merge branch `issue10` into `master`
 
 Compile assets: `./bin/node_modules/gulp`
+
