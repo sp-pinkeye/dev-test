@@ -29,6 +29,11 @@
 	{% endif %}
 
     <div class="container" id="episodes" data-episodes='{{episodes|json_encode()}}'>
+    	{% if message %}
+    		<div class="alert alert-info" role="alert">
+  				Currently displaying cached data.
+			</div>'
+    	{% endif %}
     	{% if error %}
     		<div class="alert alert-danger" role="alert">
   				Sorry, there was an error. Please try again by reloading the page

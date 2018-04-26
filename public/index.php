@@ -12,14 +12,16 @@ $client = new GuzzleHttp\Client();
 $error = 0 ;
 $data = array();
 $seasons = array() ;
-
+$message = "" ;
 try{
 
 	$res = 	$client->head( 'http://3ev.org/dev-test-api/' ) ; 
 
 	// Check cache if not do a GET
 	if( isset( $_SESSION['data'] ) ){
-		$data = $_SESSION['data'] ;	
+		$data = $_SESSION['data'] ;
+		$message = "Cached data is being displayed" ;
+			
 	}else{
 		$res = $client->request('GET', 'http://3ev.org/dev-test-api/');
 		
@@ -44,7 +46,7 @@ try{
 
 //Render the template
 
-echo $twig->render('page.html', ["error"=>$error, "episodes" => $data, "seasons" => $seasons]);
+echo $twig->render('page.html', ["error"=>$error, "episodes" => $data, "seasons" => $seasons, "message"=>$message ]);
 
 
 function sort_multi_array ($array, $key)
