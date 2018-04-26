@@ -44,6 +44,7 @@ $( '#selectSeason' ).change(function() {
 
 	// Clear popovers
 	$('.media-object').popover('hide'); 
+
 	$('#episodes').html(output) ;
 	
 	// Recall the javascript to sort popovers
